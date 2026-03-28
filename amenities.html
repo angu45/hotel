@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amenities | The Azure Horizon</title>
+    <style>
+        /* General Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') fixed center/cover;
+        }
+        
+        /* Navigation Bar (Constant) */
+        header {
+            background-color: #1a252c;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        /* Subpage Hero Section */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 37, 44, 0.6), rgba(26, 37, 44, 0.6)), url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        .page-header h2 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+
+        /* Amenities Content Section */
+        .section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Alternating Feature Layout */
+        .feature-row {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            border: 1px solid #eee;
+        }
+        /* This class reverses the direction for every even row */
+        .feature-row.reverse {
+            flex-direction: row-reverse;
+        }
+        
+        .feature-image {
+            flex: 1;
+        }
+        .feature-image img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .feature-text {
+            flex: 1;
+        }
+        .feature-text h3 {
+            font-size: 2rem;
+            color: #1a252c;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        /* Decorative underline for headers */
+        .feature-text h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #d4af37;
+        }
+        .feature-text p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        .feature-list {
+            list-style: none;
+        }
+        .feature-list li {
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 500;
+        }
+        .feature-list li::before {
+            content: '✓ ';
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        /* Footer (Constant) */
+        footer {
+            background-color: #1a252c;
+            color: white;
+            padding: 60px 5% 20px;
+            margin-top: 40px;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        .footer-col h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+        .footer-col p, .footer-col a {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .newsletter-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .newsletter-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #d4af37;
+            color: #1a252c;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .newsletter-btn:hover {
+            background-color: #e5c158;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2c3e50;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            .feature-row, .feature-row.reverse {
+                flex-direction: column;
+                padding: 20px;
+            }
+            .feature-image img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>THE AZURE HORIZON</h1>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="dining.html">Dining</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="offers.html">Offers</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h2>World-Class Amenities</h2>
+        <p>Indulge in unparalleled relaxation and recreation.</p>
+    </div>
+
+    <section class="section">
+
+        <div class="feature-row">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="The Serenity Spa">
+            </div>
+            <div class="feature-text">
+                <h3>The Serenity Spa</h3>
+                <p>Melt away your stress in our award-winning holistic spa. Combining ancient healing traditions with modern therapeutic techniques, our expert therapists provide treatments designed to rejuvenate your mind, body, and spirit.</p>
+                <ul class="feature-list">
+                    <li>Deep tissue and hot stone massages</li>
+                    <li>Rejuvenating organic facials</li>
+                    <li>Eucalyptus steam room & dry sauna</li>
+                    <li>Couples therapy suites</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-row reverse">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Infinity Edge Pool">
+            </div>
+            <div class="feature-text">
+                <h3>Infinity Edge Pool</h3>
+                <p>Take a dip in our spectacular infinity pool that creates the illusion of merging directly into the ocean horizon. It is the perfect spot to soak up the sun or enjoy a refreshing cocktail without ever leaving the water.</p>
+                <ul class="feature-list">
+                    <li>Temperature-controlled water year-round</li>
+                    <li>Swim-up bar serving tropical drinks</li>
+                    <li>Private luxury cabanas available for rent</li>
+                    <li>Dedicated kids' splash zone nearby</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-row">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Private Beach Access">
+            </div>
+            <div class="feature-text">
+                <h3>Private Beach Access</h3>
+                <p>Step directly from the resort onto miles of pristine, white sandy beaches. Exclusively reserved for our guests, our beach offers a quiet sanctuary for morning strolls, sunset viewing, or thrilling water sports.</p>
+                <ul class="feature-list">
+                    <li>Complimentary sun loungers and umbrellas</li>
+                    <li>Stand-up paddleboard and kayak rentals</li>
+                    <li>Beachside food and beverage service</li>
+                    <li>Guided snorkeling tours</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="feature-row reverse">
+            <div class="feature-image">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Fitness Center">
+            </div>
+            <div class="feature-text">
+                <h3>State-of-the-Art Fitness Center</h3>
+                <p>Maintain your wellness routine while traveling. Our 24-hour fitness center features floor-to-ceiling windows overlooking the gardens, ensuring an inspiring workout environment equipped with the latest technology.</p>
+                <ul class="feature-list">
+                    <li>Peloton bikes and advanced treadmills</li>
+                    <li>Comprehensive free-weight section</li>
+                    <li>Complimentary morning beachfront yoga</li>
+                    <li>Personal training sessions available</li>
+                </ul>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>The Azure Horizon</h3>
+                <p>Experience the pinnacle of luxury and relaxation. Your perfect getaway awaits at our world-renowned coastal resort. Escape the ordinary today.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="about.html">About Us</a>
+                <a href="rooms.html">Rooms & Suites</a>
+                <a href="amenities.html">Spa & Wellness</a>
+                <a href="dining.html">Dining & Bar</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>📍 123 Paradise Coastline<br>&nbsp;&nbsp;&nbsp;&nbsp;Ocean View, OC 90210</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ info@azurehorizon.com</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe for exclusive offers and updates straight to your inbox.</p>
+                <form action="#" method="get">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Azure Horizon Resort & Spa. All Rights Reserved. Designed for WPD Microproject.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

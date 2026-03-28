@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | The Azure Horizon</title>
+    <style>
+        /* General Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') fixed center/cover;
+        }
+        
+        /* Navigation Bar (Constant) */
+        header {
+            background-color: #1a252c;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        /* Subpage Hero Section */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 37, 44, 0.7), rgba(26, 37, 44, 0.7)), url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        .page-header h2 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 40px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #1a252c;
+        }
+
+        /* Grid Layouts */
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .text-content p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: #555;
+            text-align: justify;
+        }
+        .image-content img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Values Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .value-box {
+            text-align: center;
+            padding: 30px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            border-top: 4px solid #d4af37;
+        }
+        .value-box h3 {
+            color: #1a252c;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        /* Footer (Constant) */
+        footer {
+            background-color: #1a252c;
+            color: white;
+            padding: 60px 5% 20px;
+            margin-top: 40px;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        .footer-col h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+        .footer-col p, .footer-col a {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .newsletter-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .newsletter-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #d4af37;
+            color: #1a252c;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .newsletter-btn:hover {
+            background-color: #e5c158;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2c3e50;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>THE AZURE HORIZON</h1>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="dining.html">Dining</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="offers.html">Offers</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h2>Our Story</h2>
+        <p>Discover the history and passion behind The Azure Horizon.</p>
+    </div>
+
+    <section class="section">
+        <div class="story-grid">
+            <div class="image-content">
+                <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Resort Architecture">
+            </div>
+            <div class="text-content">
+                <h2 style="color: #1a252c; margin-bottom: 20px; font-size: 2rem;">A Legacy of Luxury</h2>
+                <p>Founded in 2010, The Azure Horizon began with a simple vision: to create a sanctuary where the majesty of the ocean meets unparalleled hospitality. What started as a boutique seaside getaway has blossomed into an internationally recognized luxury resort and spa, beloved by travelers from all corners of the globe.</p>
+                <p>Our founders, a team of passionate hoteliers and environmental architects, spent years searching for the perfect coastline. When they discovered this pristine stretch of beach, they knew they had found something magical. They meticulously designed the resort to harmonize with the natural landscape, ensuring that every room, pool, and pathway highlights the breathtaking ocean views without disrupting the local ecosystem.</p>
+                <p>Today, The Azure Horizon stands as a testament to that original vision. We are more than just a place to stay; we are curators of unforgettable experiences, dedicated to making every guest feel like royalty the moment they step through our doors.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Our Core Values</h2>
+        <div class="values-grid">
+            <div class="value-box">
+                <h3>Uncompromising Quality</h3>
+                <p>From the Egyptian cotton linens in your suite to the locally sourced ingredients in our restaurants, we believe that true luxury lies in the finest details.</p>
+            </div>
+            <div class="value-box">
+                <h3>Sustainable Hospitality</h3>
+                <p>We are deeply committed to protecting our beautiful coastal environment. We utilize solar energy, water conservation systems, and zero-plastic policies across the resort.</p>
+            </div>
+            <div class="value-box">
+                <h3>Bespoke Service</h3>
+                <p>Our world-class staff anticipates your needs before you even voice them. We pride ourselves on personalized, intuitive service that turns a great vacation into a perfect one.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>The Azure Horizon</h3>
+                <p>Experience the pinnacle of luxury and relaxation. Your perfect getaway awaits at our world-renowned coastal resort. Escape the ordinary today.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="about.html">About Us</a>
+                <a href="rooms.html">Rooms & Suites</a>
+                <a href="amenities.html">Spa & Wellness</a>
+                <a href="dining.html">Dining & Bar</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>📍 123 Paradise Coastline<br>&nbsp;&nbsp;&nbsp;&nbsp;Ocean View, OC 90210</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ info@azurehorizon.com</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe for exclusive offers and updates straight to your inbox.</p>
+                <form action="#" method="get">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Azure Horizon Resort & Spa. All Rights Reserved. Designed for WPD Microproject.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

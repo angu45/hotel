@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dining & Bars | The Azure Horizon</title>
+    <style>
+        /* General Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') fixed center/cover;
+        }
+        
+        /* Navigation Bar (Constant) */
+        header {
+            background-color: #1a252c;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        /* Subpage Hero Section */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 37, 44, 0.6), rgba(26, 37, 44, 0.6)), url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        .page-header h2 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+
+        /* Dining Content Section */
+        .section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .intro-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+            font-size: 1.2rem;
+            color: #444;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Dining Grid */
+        .dining-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 40px;
+        }
+        .dining-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+        .dining-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        .dining-image {
+            height: 300px;
+            width: 100%;
+        }
+        .dining-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .dining-details {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .dining-details h3 {
+            font-size: 1.8rem;
+            color: #1a252c;
+            margin-bottom: 5px;
+        }
+        .dining-type {
+            color: #d4af37;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        .dining-description {
+            color: #555;
+            margin-bottom: 20px;
+            text-align: justify;
+            flex-grow: 1;
+        }
+        .dining-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            border-left: 3px solid #d4af37;
+        }
+        .btn-outline {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #1a252c;
+            color: #1a252c;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s;
+            width: fit-content;
+        }
+        .btn-outline:hover {
+            background-color: #1a252c;
+            color: white;
+        }
+
+        /* Footer (Constant) */
+        footer {
+            background-color: #1a252c;
+            color: white;
+            padding: 60px 5% 20px;
+            margin-top: 40px;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        .footer-col h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+        .footer-col p, .footer-col a {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .newsletter-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .newsletter-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #d4af37;
+            color: #1a252c;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .newsletter-btn:hover {
+            background-color: #e5c158;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2c3e50;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            .dining-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>THE AZURE HORIZON</h1>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="dining.html">Dining</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="offers.html">Offers</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h2>Culinary Excellence</h2>
+        <p>Savor world-class flavors crafted by master chefs.</p>
+    </div>
+
+    <section class="section">
+        
+        <div class="intro-text">
+            <p>At The Azure Horizon, dining is more than just a meal; it is a sensory journey. Our diverse culinary venues offer everything from casual poolside bites to elegant fine dining, all prepared with the freshest local ingredients and a passion for gastronomy. Explore our award-winning restaurants and lounges below.</p>
+        </div>
+
+        <div class="dining-grid">
+            
+            <div class="dining-card">
+                <div class="dining-image">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="The Coastal Catch Restaurant">
+                </div>
+                <div class="dining-details">
+                    <h3>The Coastal Catch</h3>
+                    <div class="dining-type">Signature Seafood & Fine Dining</div>
+                    <p class="dining-description">Our flagship restaurant offers an elegant atmosphere with sweeping ocean views. Our Michelin-starred chefs specialize in freshly caught, sustainably sourced seafood, delivering innovative dishes that celebrate the bounty of the ocean. The perfect setting for a romantic evening or a celebratory feast.</p>
+                    <div class="dining-info">
+                        <strong>Hours:</strong> Dinner only, 6:00 PM - 11:00 PM<br>
+                        <strong>Dress Code:</strong> Smart Casual<br>
+                        <strong>Reservations:</strong> Highly Recommended
+                    </div>
+                    <a href="#" class="btn-outline">View Menu & Reserve</a>
+                </div>
+            </div>
+
+            <div class="dining-card">
+                <div class="dining-image">
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="The Azure Lounge">
+                </div>
+                <div class="dining-details">
+                    <h3>The Azure Lounge</h3>
+                    <div class="dining-type">Rooftop Bar & Tapas</div>
+                    <p class="dining-description">Elevate your evening at our open-air rooftop lounge. Enjoy a sophisticated menu of artisan tapas, light bites, and an extensive list of handcrafted cocktails curated by our expert mixologists. With live acoustic music and panoramic sunset views, it's the ultimate place to unwind.</p>
+                    <div class="dining-info">
+                        <strong>Hours:</strong> 4:00 PM - 1:00 AM<br>
+                        <strong>Dress Code:</strong> Resort Casual<br>
+                        <strong>Reservations:</strong> Walk-ins Welcome
+                    </div>
+                    <a href="#" class="btn-outline">Explore Drinks Menu</a>
+                </div>
+            </div>
+
+            <div class="dining-card">
+                <div class="dining-image">
+                    <img src="https://images.unsplash.com/photo-1525648199074-cee30ba79a4a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Oasis Cafe">
+                </div>
+                <div class="dining-details">
+                    <h3>Oasis Café & Grill</h3>
+                    <div class="dining-type">All-Day Casual Dining</div>
+                    <p class="dining-description">Located right next to our spectacular infinity pool, Oasis Café provides a relaxed, vibrant atmosphere. Start your day with our famous gourmet breakfast buffet, or stop by for a leisurely lunch featuring wood-fired pizzas, fresh salads, and premium grilled burgers.</p>
+                    <div class="dining-info">
+                        <strong>Hours:</strong> Breakfast 7:00 AM - 11:00 AM | Lunch 12:00 PM - 4:00 PM<br>
+                        <strong>Dress Code:</strong> Casual / Beachwear<br>
+                        <strong>Reservations:</strong> Not Required
+                    </div>
+                    <a href="#" class="btn-outline">View Daytime Menu</a>
+                </div>
+            </div>
+
+            <div class="dining-card">
+                <div class="dining-image">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="In-Room Dining">
+                </div>
+                <div class="dining-details">
+                    <h3>Private In-Room Dining</h3>
+                    <div class="dining-type">24/7 Personalized Service</div>
+                    <p class="dining-description">Experience the luxury of our culinary team from the comfort and privacy of your own suite or villa. Whether you desire a romantic breakfast in bed, a late-night snack, or a full multi-course dinner on your private balcony, our dedicated room service team is available around the clock.</p>
+                    <div class="dining-info">
+                        <strong>Hours:</strong> 24 Hours a Day, 7 Days a Week<br>
+                        <strong>Menu:</strong> Comprehensive International Menu<br>
+                        <strong>Ordering:</strong> Via Room Tablet or Phone
+                    </div>
+                    <a href="#" class="btn-outline">View Room Service Menu</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>The Azure Horizon</h3>
+                <p>Experience the pinnacle of luxury and relaxation. Your perfect getaway awaits at our world-renowned coastal resort. Escape the ordinary today.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="about.html">About Us</a>
+                <a href="rooms.html">Rooms & Suites</a>
+                <a href="amenities.html">Spa & Wellness</a>
+                <a href="dining.html">Dining & Bar</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>📍 123 Paradise Coastline<br>&nbsp;&nbsp;&nbsp;&nbsp;Ocean View, OC 90210</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ info@azurehorizon.com</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe for exclusive offers and updates straight to your inbox.</p>
+                <form action="#" method="get">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Azure Horizon Resort & Spa. All Rights Reserved. Designed for WPD Microproject.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

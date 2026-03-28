@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms & Suites | The Azure Horizon</title>
+    <style>
+        /* General Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') fixed center/cover;
+        }
+        
+        /* Navigation Bar (Constant) */
+        header {
+            background-color: #1a252c;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        /* Subpage Hero Section */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 37, 44, 0.6), rgba(26, 37, 44, 0.6)), url('https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        .page-header h2 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+
+        /* Room List Section */
+        .section {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* Horizontal Room Cards */
+        .room-card {
+            display: flex;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+        }
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        .room-image {
+            flex: 1;
+            min-width: 350px;
+        }
+        .room-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .room-details {
+            flex: 1.5;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .room-details h3 {
+            font-size: 1.8rem;
+            color: #1a252c;
+            margin-bottom: 10px;
+        }
+        .room-price {
+            font-size: 1.2rem;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .room-description {
+            color: #555;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        .room-amenities {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .room-amenities li {
+            font-size: 0.9rem;
+            background: #f0f4f8;
+            padding: 5px 12px;
+            border-radius: 20px;
+            color: #1a252c;
+            font-weight: 500;
+        }
+        .book-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #1a252c;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+            transition: background 0.3s;
+            width: fit-content;
+        }
+        .book-btn:hover {
+            background-color: #d4af37;
+            color: #1a252c;
+        }
+
+        /* Footer (Constant) */
+        footer {
+            background-color: #1a252c;
+            color: white;
+            padding: 60px 5% 20px;
+            margin-top: 40px;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        .footer-col h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+        .footer-col p, .footer-col a {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .newsletter-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .newsletter-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #d4af37;
+            color: #1a252c;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .newsletter-btn:hover {
+            background-color: #e5c158;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2c3e50;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments for mobile */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            .room-card {
+                flex-direction: column; /* Stacks image on top of text */
+            }
+            .room-image {
+                min-width: 100%;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>THE AZURE HORIZON</h1>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="dining.html">Dining</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="offers.html">Offers</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h2>Rooms & Suites</h2>
+        <p>Unwind in sophisticated comfort with breathtaking views.</p>
+    </div>
+
+    <section class="section">
+        
+        <div class="room-card">
+            <div class="room-image">
+                <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ocean View Suite">
+            </div>
+            <div class="room-details">
+                <h3>Ocean View Suite</h3>
+                <div class="room-price">From $350 / Night</div>
+                <p class="room-description">Wake up to the gentle sound of waves and breathtaking panoramic views of the sea. Featuring a king-sized bed, a private balcony, and a lavish en-suite marble bathroom with a deep soaking tub, this suite is the epitome of coastal luxury.</p>
+                <ul class="room-amenities">
+                    <li>🛏️ King Bed</li>
+                    <li>🌊 Sea View</li>
+                    <li>📶 Free Wi-Fi</li>
+                    <li>☕ Espresso Machine</li>
+                </ul>
+                <a href="#" class="book-btn">Check Availability</a>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="room-image">
+                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Deluxe Skyline Room">
+            </div>
+            <div class="room-details">
+                <h3>Deluxe Skyline Room</h3>
+                <div class="room-price">From $280 / Night</div>
+                <p class="room-description">Perfect for business travelers or couples. Enjoy sleek, modern design with floor-to-ceiling windows offering spectacular views of the resort grounds and distant mountains. Features a dedicated workspace and premium entertainment system.</p>
+                <ul class="room-amenities">
+                    <li>🛏️ Queen Bed</li>
+                    <li>📺 55" Smart TV</li>
+                    <li>📶 Free Wi-Fi</li>
+                    <li>💼 Workspace</li>
+                </ul>
+                <a href="#" class="book-btn">Check Availability</a>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="room-image">
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Garden Oasis Villa">
+            </div>
+            <div class="room-details">
+                <h3>Garden Oasis Villa</h3>
+                <div class="room-price">From $550 / Night</div>
+                <p class="room-description">Tucked away in our lush tropical gardens, these private villas offer ultimate seclusion and serenity. Each comes with a private plunge pool, an outdoor rain shower, spacious living areas, and complimentary breakfast served on your patio.</p>
+                <ul class="room-amenities">
+                    <li>🏊 Private Pool</li>
+                    <li>🌿 Garden View</li>
+                    <li>🥐 Free Breakfast</li>
+                    <li>🍷 Mini Bar</li>
+                </ul>
+                <a href="#" class="book-btn">Check Availability</a>
+            </div>
+        </div>
+
+        <div class="room-card">
+            <div class="room-image">
+                <img src="https://images.unsplash.com/photo-1566073171526-873130761924?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="The Presidential Penthouse">
+            </div>
+            <div class="room-details">
+                <h3>The Presidential Penthouse</h3>
+                <div class="room-price">From $1,200 / Night</div>
+                <p class="room-description">Our most exclusive offering. Spanning the entire top floor, it features a private infinity pool, a 24-hour personal butler, a dedicated dining area for ten, and stunning 360-degree views of the coastline. The pinnacle of opulence.</p>
+                <ul class="room-amenities">
+                    <li>👑 Butler Service</li>
+                    <li>🏊 Infinity Pool</li>
+                    <li>🍽️ Dining Room</li>
+                    <li>🍾 Champagne Welcome</li>
+                </ul>
+                <a href="#" class="book-btn">Check Availability</a>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>The Azure Horizon</h3>
+                <p>Experience the pinnacle of luxury and relaxation. Your perfect getaway awaits at our world-renowned coastal resort. Escape the ordinary today.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="about.html">About Us</a>
+                <a href="rooms.html">Rooms & Suites</a>
+                <a href="amenities.html">Spa & Wellness</a>
+                <a href="dining.html">Dining & Bar</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>📍 123 Paradise Coastline<br>&nbsp;&nbsp;&nbsp;&nbsp;Ocean View, OC 90210</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ info@azurehorizon.com</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe for exclusive offers and updates straight to your inbox.</p>
+                <form action="#" method="get">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Azure Horizon Resort & Spa. All Rights Reserved. Designed for WPD Microproject.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

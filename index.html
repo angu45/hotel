@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Azure Horizon | Luxury Resort & Spa</title>
+    <style>
+        /* General Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* --- NEW GLOBAL BACKGROUND ADDED HERE --- */
+        body {
+            line-height: 1.6;
+            color: #333;
+            /* Added an attractive background image with a light overlay so text is readable */
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') fixed center/cover;
+        }
+        
+        /* Navigation Bar */
+        header {
+            background-color: #1a252c;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d4af37; /* Gold accent */
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1542314831-c6a4d14d8c53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        .hero h2 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        .btn {
+            padding: 15px 30px;
+            background-color: #d4af37;
+            color: #1a252c;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background-color: #e5c158;
+        }
+
+        /* Main Content Sections */
+        .section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: auto;
+            /* Added white backgrounds to sections to make them pop against the global background */
+            background-color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #1a252c;
+        }
+
+        /* About & Content layout */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .about-text p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #555;
+            text-align: justify;
+        }
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Rooms/Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card-content h3 {
+            color: #1a252c;
+            margin-bottom: 10px;
+        }
+        .card-content p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        /* --- NEW EXPANDED FOOTER CSS --- */
+        footer {
+            background-color: #1a252c;
+            color: white;
+            padding: 60px 5% 20px;
+            margin-top: 40px;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        .footer-col h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+        .footer-col p {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        .footer-col a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .newsletter-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .newsletter-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #d4af37;
+            color: #1a252c;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .newsletter-btn:hover {
+            background-color: #e5c158;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2c3e50;
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>THE AZURE HORIZON</h1>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="#dining.html">Dining</a></li>
+                <li><a href="#gallery.html">Gallery</a></li>
+                <li><a href="#offers.html">Offers</a></li>
+                <li><a href="#reviews.html">Reviews</a></li>
+                <li><a href="#contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="hero">
+        <h2>Escape to Paradise</h2>
+        <p>Experience the ultimate blend of luxury, comfort, and breathtaking natural beauty at the world's premier coastal resort.</p>
+        <a href="#rooms" class="btn">Book Your Stay</a>
+    </section>
+
+    <div style="height: 40px;"></div>
+
+    <section id="about" class="section">
+        <h2 class="section-title">Welcome to The Azure Horizon</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>Welcome to The Azure Horizon Resort & Spa, your ultimate destination for luxury and tranquility. Located on the edge of the world's most pristine beaches, our resort is meticulously designed to provide an unforgettable escape from the ordinary. Whether you are planning a romantic honeymoon, a fun-filled family vacation, or a solo wellness retreat to recharge your spirit, The Azure Horizon offers a bespoke experience tailored just for you.</p>
+                <p>Our dedicated staff is committed to delivering world-class service, ensuring that every moment of your stay is nothing short of perfection. From the moment you arrive, you will be enveloped in an atmosphere of elegance, warmth, and unparalleled hospitality. We pride ourselves on creating a sanctuary where modern architecture seamlessly blends with lush natural surroundings.</p>
+                <p>Embark on a culinary journey at our signature restaurant, <strong>The Coastal Catch</strong>, where our Michelin-starred chefs use locally sourced ingredients to create exquisite dishes. Afterward, relax under the stars at our rooftop lounge. Discover why discerning travelers around the globe choose us as their home away from home.</p>
+            </div>
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Hotel Pool">
+            </div>
+        </div>
+    </section>
+
+    <section id="rooms" class="section">
+        <h2 class="section-title">Luxurious Accommodations</h2>
+        <div class="cards-grid">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ocean View Suite">
+                <div class="card-content">
+                    <h3>Ocean View Suite</h3>
+                    <p>Wake up to the gentle sound of waves and breathtaking panoramic views of the sea. Featuring a king-sized bed, a private balcony, and a lavish en-suite marble bathroom, this suite is the epitome of coastal luxury.</p>
+                    <a href="#" style="color: #d4af37; text-decoration: none; font-weight: bold;">Explore Room &rarr;</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Garden Oasis Villa">
+                <div class="card-content">
+                    <h3>Garden Oasis Villa</h3>
+                    <p>Tucked away in our lush tropical gardens, these private villas offer ultimate seclusion and serenity. Each comes with a private plunge pool, an outdoor rain shower, and spacious living areas perfect for unwinding.</p>
+                    <a href="#" style="color: #d4af37; text-decoration: none; font-weight: bold;">Explore Villa &rarr;</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1566073171526-873130761924?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="The Presidential Penthouse">
+                <div class="card-content">
+                    <h3>The Presidential Penthouse</h3>
+                    <p>Our most exclusive offering. Spanning the entire top floor, it features a private infinity pool, a personal butler, a dedicated dining area, and 360-degree views of the coastline and surrounding mountains.</p>
+                    <a href="#" style="color: #d4af37; text-decoration: none; font-weight: bold;">Explore Penthouse &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="amenities" class="section">
+        <h2 class="section-title">World-Class Amenities</h2>
+        <div class="about-grid">
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Spa and Wellness">
+            </div>
+            <div class="about-text">
+                <p><strong>The Serenity Spa:</strong> Rejuvenate your mind, body, and spirit with our holistic treatments, combining ancient healing techniques with modern wellness practices. Enjoy massages, facials, and a state-of-the-art sauna.</p>
+                <p><strong>Infinity Edge Pool:</strong> Lounge by our spectacular infinity pool that seamlessly blends into the horizon, complete with private cabanas and a swim-up bar offering signature tropical cocktails.</p>
+                <p><strong>Private Beach Access:</strong> Enjoy exclusive access to miles of white sandy beaches, perfect for quiet morning strolls, thrilling water sports, or simply watching the breathtaking sunset.</p>
+                <p><strong>Fitness Center:</strong> Keep up with your routine in our 24/7 gym, fully equipped with the latest cardio and strength-training machines, plus daily complimentary yoga classes.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>The Azure Horizon</h3>
+                <p>Experience the pinnacle of luxury and relaxation. Your perfect getaway awaits at our world-renowned coastal resort. Escape the ordinary today.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="#about">About Us</a>
+                <a href="#rooms">Rooms & Suites</a>
+                <a href="#amenities">Spa & Wellness</a>
+                <a href="#">Dining & Bar</a>
+                <a href="#">Careers</a>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>📍 123 Paradise Coastline<br>&nbsp;&nbsp;&nbsp;&nbsp;Ocean View, OC 90210</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ info@azurehorizon.com</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe for exclusive offers and updates straight to your inbox.</p>
+                <form action="#" method="get">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Azure Horizon Resort & Spa. All Rights Reserved. Designed for WPD Microproject.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

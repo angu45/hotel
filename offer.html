@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Offers | The Azure Horizon</title>
+    <style>
+        /* General Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') fixed center/cover;
+        }
+        
+        /* Navigation Bar (Constant) */
+        header {
+            background-color: #1a252c;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        /* Subpage Hero Section */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 37, 44, 0.7), rgba(26, 37, 44, 0.7)), url('https://images.unsplash.com/photo-1522798514-97ceb8c4f1c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+        }
+        .page-header h2 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: #d4af37;
+        }
+
+        /* Offers Content Section */
+        .section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .intro-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 50px auto;
+            font-size: 1.15rem;
+            color: #444;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        /* Offers Grid */
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        .offer-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: 1px solid #eee;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .offer-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        
+        /* Discount Badge */
+        .badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background-color: #d4af37;
+            color: #1a252c;
+            padding: 5px 40px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transform: rotate(45deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        .offer-image {
+            height: 250px;
+            width: 100%;
+        }
+        .offer-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .offer-details {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .offer-details h3 {
+            font-size: 1.6rem;
+            color: #1a252c;
+            margin-bottom: 10px;
+        }
+        .offer-description {
+            color: #555;
+            margin-bottom: 20px;
+            text-align: justify;
+            flex-grow: 1;
+        }
+        .offer-includes {
+            background: #f0f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+        }
+        .offer-includes ul {
+            list-style-type: none;
+        }
+        .offer-includes li {
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .offer-includes li::before {
+            content: '✦ ';
+            color: #d4af37;
+        }
+        .btn-claim {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #1a252c;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            text-align: center;
+            transition: background 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-claim:hover {
+            background-color: #d4af37;
+            color: #1a252c;
+        }
+
+        /* Terms and Conditions Box */
+        .terms-box {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-top: 1px solid #ccc;
+            font-size: 0.85rem;
+            color: #666;
+            text-align: justify;
+            border-radius: 5px;
+        }
+
+        /* Footer (Constant) */
+        footer {
+            background-color: #1a252c;
+            color: white;
+            padding: 60px 5% 20px;
+            margin-top: 40px;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        .footer-col h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+        }
+        .footer-col p, .footer-col a {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .newsletter-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .newsletter-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #d4af37;
+            color: #1a252c;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .newsletter-btn:hover {
+            background-color: #e5c158;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2c3e50;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            .offers-grid {
+                grid-template-columns: 1fr;
+            }
+            .badge {
+                right: -40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>THE AZURE HORIZON</h1>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="dining.html">Dining</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="offers.html">Offers</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h2>Exclusive Offers</h2>
+        <p>Elevate your stay with our carefully curated vacation packages.</p>
+    </div>
+
+    <section class="section">
+        
+        <div class="intro-text">
+            <p>At The Azure Horizon, we believe that every getaway should be extraordinary. Whether you are celebrating a milestone, planning a family adventure, or simply looking to escape the hustle and bustle of daily life, our exclusive hotel packages are designed to provide maximum value and unforgettable experiences. Browse our current promotions below and book directly with us for the best rates guaranteed.</p>
+        </div>
+
+        <div class="offers-grid">
+            
+            <div class="offer-card">
+                <div class="badge">Best Value</div>
+                <div class="offer-image">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tropical Resort Stay">
+                </div>
+                <div class="offer-details">
+                    <h3>The Extended Escape</h3>
+                    <p class="offer-description">Why rush paradise? Stay a little longer and let the relaxation truly set in. Book a stay of five consecutive nights in any of our premium suites or villas, and receive your sixth night absolutely free.</p>
+                    <div class="offer-includes">
+                        <strong>Package Includes:</strong>
+                        <ul>
+                            <li>6th night complimentary</li>
+                            <li>Daily gourmet breakfast for two</li>
+                            <li>Late checkout at 2:00 PM</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn-claim">Claim Offer</a>
+                </div>
+            </div>
+
+            <div class="offer-card">
+                <div class="offer-image">
+                    <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Romantic Dinner">
+                </div>
+                <div class="offer-details">
+                    <h3>Romantic Honeymoon Retreat</h3>
+                    <p class="offer-description">Celebrate your love story in the ultimate romantic setting. Designed specifically for couples and newlyweds, this package surrounds you with luxury, privacy, and intimate culinary experiences.</p>
+                    <div class="offer-includes">
+                        <strong>Package Includes:</strong>
+                        <ul>
+                            <li>Chilled Champagne upon arrival</li>
+                            <li>60-minute couples massage</li>
+                            <li>Private candlelit beach dinner</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn-claim">Claim Offer</a>
+                </div>
+            </div>
+
+            <div class="offer-card">
+                <div class="badge">Save 25%</div>
+                <div class="offer-image">
+                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Yoga Wellness">
+                </div>
+                <div class="offer-details">
+                    <h3>Mind & Body Wellness Package</h3>
+                    <p class="offer-description">Disconnect from the digital world and reconnect with yourself. This holistic retreat package focuses on rejuvenation, healthy living, and finding your inner peace at our award-winning Serenity Spa.</p>
+                    <div class="offer-includes">
+                        <strong>Package Includes:</strong>
+                        <ul>
+                            <li>$200 Spa Credit per stay</li>
+                            <li>Unlimited yoga & meditation classes</li>
+                            <li>Customized healthy dining menu</li>
+                        </ul>
+                    </div>
+                    <a href="#" class="btn-claim">Claim Offer</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="terms-box">
+            <strong>*Terms & Conditions:</strong> Offers are subject to availability at the time of booking. Blackout dates and other restrictions may apply. The Extended Escape requires a minimum stay of 6 nights. Spa credits hold no cash value and must be used during the booked stay. The Romantic Honeymoon Retreat requires proof of marriage within the last 12 months for specific honeymoon amenities. Offers cannot be combined with any other promotions, discounts, or group rates. The Azure Horizon reserves the right to alter or withdraw these offers at any time without prior notice. For full details, please contact our reservations team.
+        </div>
+
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>The Azure Horizon</h3>
+                <p>Experience the pinnacle of luxury and relaxation. Your perfect getaway awaits at our world-renowned coastal resort. Escape the ordinary today.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="about.html">About Us</a>
+                <a href="rooms.html">Rooms & Suites</a>
+                <a href="amenities.html">Spa & Wellness</a>
+                <a href="dining.html">Dining & Bar</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>📍 123 Paradise Coastline<br>&nbsp;&nbsp;&nbsp;&nbsp;Ocean View, OC 90210</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ info@azurehorizon.com</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe for exclusive offers and updates straight to your inbox.</p>
+                <form action="#" method="get">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Azure Horizon Resort & Spa. All Rights Reserved. Designed for WPD Microproject.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

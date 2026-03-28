@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Voices | The Azure Horizon</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* General Reset & Typography */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Keep basic font for UI */
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') fixed center/cover;
+        }
+        
+        /* Navigation Bar (Constant) */
+        header {
+            background-color: #1a252c;
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d4af37;
+        }
+
+        /* Subpage Hero Section */
+        .page-header {
+            height: 40vh;
+            background: linear-gradient(rgba(26, 37, 44, 0.7), rgba(26, 37, 44, 0.7)), url('https://images.unsplash.com/photo-1528605248644-14dd04022da1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        .page-header h2 {
+            font-size: 3.5rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            color: #d4af37;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        /* Reviews Content Section */
+        .section {
+            padding: 80px 5%;
+            max-width: 1400px;
+            margin: auto;
+        }
+        .intro-text {
+            text-align: center;
+            max-width: 850px;
+            margin: 0 auto 70px auto;
+            font-size: 1.2rem;
+            color: #444;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        /* --- DECORATED REVIEWS GRID --- */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+        }
+        
+        .review-card {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            text-align: center;   /* Center text universally */
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+        
+        /* Premium Hover Effect */
+        .review-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            border-color: #d4af37;
+        }
+        
+        /* Decorative top accent */
+        .review-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to right, #1a252c, #d4af37, #1a252c);
+        }
+
+        /* Massive Quotes Decor */
+        .quote-icon {
+            font-family: 'Playfair Display', serif;
+            font-size: 8rem;
+            color: #f0f0f0;
+            position: absolute;
+            line-height: 1;
+            z-index: 1;
+        }
+        .quote-left {
+            top: 20px;
+            left: 20px;
+        }
+        .quote-right {
+            bottom: -30px;
+            right: 20px;
+        }
+        
+        /* Star Rating */
+        .stars {
+            color: #d4af37;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* --- DECORATED REVIEW TEXT --- */
+        .review-text {
+            /* Using Playfair Display for an elegant serif quote */
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            font-style: italic;
+            color: #555;
+            margin-bottom: 35px;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            position: relative;
+            z-index: 2;
+            flex-grow: 1; /* Pushes reviewer info to bottom */
+        }
+        
+        /* --- REVIEWER INFO W/ AVATAR --- */
+        .reviewer-info {
+            border-top: 1px solid #eee;
+            padding-top: 25px;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- NEW AVATAR STYLING --- */
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover; /* Ensures image doesn't stretch */
+            margin-bottom: 15px;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .reviewer-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: #1a252c;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+        .reviewer-details {
+            font-family: 'Segoe UI', sans-serif;
+            color: #d4af37; /* Accent color for location */
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Footer (Constant) */
+        footer {
+            background-color: #1a252c;
+            color: white;
+            padding: 60px 5% 20px;
+            margin-top: 60px;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        .footer-col h3 {
+            color: #d4af37;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .footer-col p, .footer-col a {
+            color: #ccc;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: block;
+        }
+        .footer-col a:hover {
+            color: white;
+        }
+        .newsletter-input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .newsletter-input::placeholder {
+            color: #888;
+        }
+        .newsletter-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #d4af37;
+            color: #1a252c;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .newsletter-btn:hover {
+            background-color: #e5c158;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2c3e50;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .reviews-grid {
+                grid-template-columns: 1fr; /* Single column on tablets */
+                max-width: 600px;
+                margin: auto;
+            }
+        }
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+            .page-header h2 {
+                font-size: 2.5rem;
+            }
+            .review-card {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>THE AZURE HORIZON</h1>
+        <nav>
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="rooms.html">Rooms</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="dining.html">Dining</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="offers.html">Offers</a></li>
+                <li><a href="reviews.html">Reviews</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="page-header">
+        <h2>Guest Voices</h2>
+        <p>Discover genuine experiences shared by our global community.</p>
+    </div>
+
+    <section class="section">
+        
+        <div class="intro-text">
+            <p>At The Azure Horizon Resort & Spa, your satisfaction is the cornerstone of our existence. We are dedicated to crafting personalized escapes that linger in memory long after you depart. We invite you to explore these curated, authentic stories from recent guests who have immersed themselves in the elegance and tranquil beauty of our coastal sanctuary. Each voice helps illustrate why we are the premier choice for luxury hospitality.</p>
+        </div>
+
+        <div class="reviews-grid">
+            
+            <div class="review-card">
+                <span class="quote-icon quote-left">&#x201C;</span>
+                <div class="stars">★★★★★</div>
+                <p class="review-text">
+                    "A flawless paradise from start to finish. The architecture effortlessly blends modern luxury with standard coastal warmth. Our Ocean Suite offered breathtaking panoramas that must be seen to be believed. Every staff member treated us like family, anticipating needs before we realized them. The Michelin-starred dining was truly the cherry on top."
+                </p>
+                <div class="reviewer-info">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Sarah T." class="avatar">
+                    <div class="reviewer-name">Sarah T. & Mark L.</div>
+                    <div class="reviewer-details">London, United Kingdom</div>
+                </div>
+                <span class="quote-icon quote-right">&#x201D;</span>
+            </div>
+
+            <div class="review-card">
+                <span class="quote-icon quote-left">&#x201C;</span>
+                <div class="stars">★★★★★</div>
+                <p class="review-text">
+                    "The ultimate sanctuary for rejuvenation. The Serenity Spa offered a profound healing experience; I felt years of tension disappear. We spent hours by the infinity pool that melts into the horizon. The fast Wi-Fi and quiet surroundings also allowed me to manage urgent business elegantly. It is rare to find a resort that perfectly serves both relaxation and efficiency."
+                </p>
+                <div class="reviewer-info">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="David Chen" class="avatar">
+                    <div class="reviewer-name">David Chen</div>
+                    <div class="reviewer-details">San Francisco, USA</div>
+                </div>
+                <span class="quote-icon quote-right">&#x201D;</span>
+            </div>
+
+            <div class="review-card">
+                <span class="quote-icon quote-left">&#x201C;</span>
+                <div class="stars">★★★★★</div>
+                <p class="review-text">
+                    "We treated ourselves to The Presidential Penthouse for our 15th anniversary, and it was pure opulence. The 24/7 butler service ensured every desire was met instantly. From a private candlelight beach dinner to coordinating boat tours, nothing was too much trouble. It was an investment in a memory that we will treasure forever."
+                </div>
+                <div class="reviewer-info">
+                    <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="Elena R." class="avatar">
+                    <div class="reviewer-name">Elena & Roberto R.</div>
+                    <div class="reviewer-details">Madrid, Spain</div>
+                </div>
+                <span class="quote-icon quote-right">&#x201D;</span>
+            </div>
+
+            <div class="review-card">
+                <span class="quote-icon quote-left">&#x201C;</span>
+                <div class="stars">★★★★☆</div>
+                <p class="review-text">
+                    "A dream come true for our honeymoon. The Garden Oasis Villa offered the perfect balance of seclusion and luxury, especially the private plunge pool. We enjoyed incredible tapas at the Azure Lounge during sunset. While the main beach gets a little busy on weekends, the personalized service always makes you feel special. Truly romantic!"
+                </p>
+                <div class="reviewer-info">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="James K." class="avatar">
+                    <div class="reviewer-name">James & Chloe K.</div>
+                    <div class="reviewer-details">Sydney, Australia</div>
+                </div>
+                <span class="quote-icon quote-right">&#x201D;</span>
+            </div>
+
+            <div class="review-card">
+                <span class="quote-icon quote-left">&#x201C;</span>
+                <div class="stars">★★★★★</div>
+                <p class="review-text">
+                    "Finally, a luxury resort that knows how to accommodate a family! My children were enchanted by the splash zone and beach activities, allowing my husband and me to actually relax. The dining options were diverse enough to please everyone, and the concierge booked brilliant family tours. It was flawless from booking to departure. We are already planning our return."
+                </div>
+                <div class="reviewer-info">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="The Patel Family" class="avatar">
+                    <div class="reviewer-name">The Patel Family</div>
+                    <div class="reviewer-details">Mumbai, India</div>
+                </div>
+                <span class="quote-icon quote-right">&#x201D;</span>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>The Azure Horizon</h3>
+                <p>Experience the pinnacle of luxury and relaxation. Your perfect getaway awaits at our world-renowned coastal resort. Escape the ordinary today.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="about.html">About Us</a>
+                <a href="rooms.html">Rooms & Suites</a>
+                <a href="amenities.html">Spa & Wellness</a>
+                <a href="dining.html">Dining & Bar</a>
+                <a href="contact.html">Contact Us</a>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>📍 123 Paradise Coastline<br>&nbsp;&nbsp;&nbsp;&nbsp;Ocean View, OC 90210</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ info@azurehorizon.com</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe for exclusive offers and updates straight to your inbox.</p>
+                <form action="#" method="get">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 The Azure Horizon Resort & Spa. All Rights Reserved. Designed for WPD Microproject.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
