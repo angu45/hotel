@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Keyword SEO Rank Checker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom Tailwind config for gradient and animations if needed */
+    @tailwind base;
+    @tailwind components;
+    @tailwind utilities;
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl mx-auto bg-white/80 backdrop-blur-xl shadow-2xl rounded-3xl p-6 md:p-12 border border-white/50">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+        Google SEO Rank Checker
+      </h1>
+      <p class="text-xl text-gray-600 max-w-lg mx-auto">
+        Enter a domain, keyword, and country to check real-time Google ranking position.
+      </p>
+    </div>
+
+    <!-- Input Form -->
+    <form id="rankForm" class="space-y-6">
+      <!-- Target Domain Input -->
+      <div>
+        <label for="domain" class="block text-sm font-semibold text-gray-700 mb-3">
+          Target Domain
+        </label>
+        <input 
+          type="text" 
+          id="domain" 
+          placeholder="e.g., example.com" 
+          class="w-full p-4 text-lg border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-sm"
+          required
+        >
+      </div>
+
+      <!-- Keyword Input -->
+      <div>
+        <label for="keyword" class="block text-sm font-semibold text-gray-700 mb-3">
+          Keyword
+        </label>
+        <input 
+          type="text" 
+          id="keyword" 
+          placeholder="e.g., best shoes" 
+          class="w-full p-4 text-lg border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-sm"
+          required
+        >
+      </div>
+
+      <!-- Country Dropdown -->
+      <div>
+        <label for="country" class="block text-sm font-semibold text-gray-700 mb-3">
+          Country
+        </label>
+        <select 
+          id="country" 
+          class="w-full p-4 text-lg border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 shadow-sm bg-white"
+          required
+        >
+          <option value="us">🇺🇸 United States (US)</option>
+          <option value="gb">🇬🇧 United Kingdom (UK)</option>
+          <option value="in">🇮🇳 India (IN)</option>
+          <option value="au">🇦🇺 Australia (AU)</option>
+        </select>
+      </div>
+
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        id="checkBtn"
+        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-5 px-8 rounded-2xl font-bold text-xl shadow-xl hover:shadow-2xl hover:from-blue-700 hover:to-indigo-700 focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 transform hover:-translate-y-1"
+      >
+        🚀 Check Ranking
+      </button>
+    </form>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="hidden mt-12 flex flex-col items-center">
+      <div class="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent mb-4"></div>
+      <p class="text-xl text-gray-600 font-semibold">Searching Google... Please wait</p>
+      <p class="text-sm text-gray-500 mt-2">Fetching top 100 results</p>
+    </div>
+
+    <!-- Success / Ranking Found -->
+    <div id="success" class="hidden mt-12 p-8 md:p-12 bg-gradient-to-r from-green-50 to-emerald-50 border-4 border-green-200 rounded-3xl shadow-2xl">
+      <!-- Dynamic content -->
+    </div>
+
+    <!-- Not Found -->
+    <div id="notfound" class="hidden mt-12 p-8 md:p-12 bg-gradient-to-r from-orange-50 to-amber-50 border-4 border-orange-200 rounded-3xl shadow-2xl">
+      <!-- Dynamic content -->
+    </div>
+
+    <!-- Error -->
+    <div id="error" class="hidden mt-12 p-8 md:p-12 bg-gradient-to-r from-red-50 to-rose-50 border-4 border-red-200 rounded-3xl shadow-2xl">
+      <!-- Dynamic content -->
+    </div>
+  </div>
+
+  <script>
+    // Country name mapping for display
+    const countryNames = {
+      'us': 'United States',
+      'gb': 'United Kingdom',
+      'in': 'India',
+      'au': 'Australia'
+    };
+
+    // DOM elements
+    const form = document.getElementById('rankForm');
+    const loading = document.getElementById('loading');
+    const successDiv = document.getElementById('success');
+    const notfoundDiv = document.getElementById('notfound');
+    const errorDiv = document.getElementById('error');
+    const checkBtn = document.getElementById('checkBtn');
+
+    // Function to normalize and check domain match
+    function domainMatches(hostname, targetDomain) {
+      if (!hostname) return false;
+      const cleanHostname = hostname.toLowerCase().replace(/^www\./i, '');
+      const cleanTarget = targetDomain.toLowerCase();
+      // Exact match or subdomain (e.g., blog.example.com matches example.com)
+      return cleanHostname === cleanTarget || cleanHostname.endsWith('.' + cleanTarget);
+    }
+
+    // Function to show error message
+    function showError(message) {
+      errorDiv.innerHTML = `
+        <div class="text-center">
+          <div class="text-6xl mb-4">❌</div>
+          <h2 class="text-2xl md:text-3xl font-bold text-red-800 mb-4">Oops! Something went wrong</h2>
+          <p class="text-lg text-red-700 max-w-md mx-auto leading-relaxed">${message}</p>
+        </div>
+      `;
+      errorDiv.classList.remove('hidden');
+    }
+
+    // Form submit handler
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Get and validate inputs
+      const rawDomain = document.getElementById('domain').value.trim();
+      const keyword = document.getElementById('keyword').value.trim();
+      const countryCode = document.getElementById('country').value;
+      const domain = rawDomain.toLowerCase().replace(/^(https?:\/\/|www\.)|\/.*$/g, ''); // Clean domain
+
+      if (!domain || domain.length < 4 || !keyword) {
+        showError('Please enter a valid domain (e.g., example.com) and keyword.');
+        return;
+      }
+
+      // Hide all output divs and show loading
+      successDiv.classList.add('hidden');
+      notfoundDiv.classList.add('hidden');
+      errorDiv.classList.add('hidden');
+      loading.classList.remove('hidden');
+      checkBtn.disabled = true;
+      checkBtn.innerHTML = '⏳ Checking...';
+
+      try {
+        // SerpApi configuration - REPLACE 'YOUR_API_KEY' with your actual SerpApi key
+        const apiKey = 'YOUR_API_KEY'; // Get your free key at https://serpapi.com/users/sign_up
+        if (apiKey === 'YOUR_API_KEY') {
+          throw new Error('Please replace <code>YOUR_API_KEY</code> in the JavaScript with your actual SerpApi API key.');
+        }
+
+        // SerpApi endpoint for Google search
+        const searchUrl = `https://serpapi.com/search.json?engine=google&q=${encodeURIComponent(keyword)}&gl=${countryCode}&num=100&api_key=${apiKey}`;
+
+        const response = await fetch(searchUrl);
+        const data = await response.json();
+
+        // Handle API errors
+        if (!response.ok || data.error) {
+          throw new Error(data.error?.message || `API Error: ${data.error?.code || response.status}`);
+        }
+
+        // Find best ranking position in organic results
+        const organicResults = data.organic_results || [];
+        let bestPosition = Infinity;
+        let bestResult = null;
+
+        for (const result of organicResults) {
+          try {
+            const urlObj = new URL(result.link);
+            if (domainMatches(urlObj.hostname, domain)) {
+              const position = result.position || organicResults.indexOf(result) + 1;
+              if (position < bestPosition) {
+                bestPosition = position;
+                bestResult = result;
+              }
+            }
+          } catch (urlErr) {
+            // Skip invalid URLs
+          }
+        }
+
+        // Hide loading
+        loading.classList.add('hidden');
+        checkBtn.disabled = false;
+        checkBtn.innerHTML = '🚀 Check Ranking';
+
+        const countryName = countryNames[countryCode];
+
+        if (bestPosition < Infinity) {
+          // Domain found - check if top 10 for special message
+          const position = bestPosition;
+          const isTop10 = position <= 10;
+          const resultDiv = successDiv;
+
+          let titleClass = isTop10 ? 'text-green-800' : 'text-gray-800';
+          let headerEmoji = isTop10 ? '🎉' : '📈';
+          let headerText = isTop10 ? 'Congratulations!' : 'Ranking Found!';
+          let headerColor = isTop10 ? 'from-green-600 to-emerald-600' : 'from-blue-600 to-indigo-600';
+
+          resultDiv.innerHTML = `
+            <div class="text-center">
+              <div class="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r ${headerColor} text-3xl font-black text-white rounded-3xl shadow-2xl mb-6 mx-auto">
+                ${headerEmoji} #${position}
+              </div>
+              <h2 class="text-3xl md:text-4xl font-bold ${titleClass} mb-4">${headerText}</h2>
+              <p class="text-xl text-gray-700 mb-8 max-w-lg mx-auto leading-relaxed">
+                <strong>${rawDomain}</strong> ranks <strong>#${position}</strong> for 
+                <em>"${keyword}"</em> in ${countryName}.
+              </p>
+              ${bestResult ? `
+                <div class="bg-white/70 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-white/50 max-w-md mx-auto">
+                  <h3 class="font-bold text-lg ${titleClass} mb-3">Result Preview:</h3>
+                  <p class="text-gray-800 mb-3 line-clamp-2">${bestResult.title}</p>
+                  <a href="${bestResult.link}" target="_blank" rel="noopener noreferrer" 
+                     class="inline-flex items-center text-blue-600 hover:text-blue-800 font-semibold text-sm bg-blue-100 px-3 py-1 rounded-full hover:bg-blue-200 transition-all">
+                    ${bestResult.displayed_link || new URL(bestResult.link).hostname} →
+                  </a>
+                </div>
+              ` : ''}
+            </div>
+          `;
+          resultDiv.classList.remove('hidden');
+        } else {
+          // Not found in top 100
+          notfoundDiv.innerHTML = `
+            <div class="text-center">
+              <div class="text-6xl mb-6">🔍</div>
+              <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Not Found in Top 100</h2>
+              <p class="text-xl text-gray-700 mb-8 max-w-lg mx-auto leading-relaxed">
+                <strong>${rawDomain}</strong> does not appear in the top 100 organic results for 
+                <em>"${keyword}"</em> in ${countryName}.
+              </p>
+              <p class="text-lg text-gray-600">
+                Try a different keyword, check spelling, or expand your SEO efforts!
+              </p>
+            </div>
+          `;
+          notfoundDiv.classList.remove('hidden');
+        }
+
+      } catch (err) {
+        loading.classList.add('hidden');
+        checkBtn.disabled = false;
+        checkBtn.innerHTML = '🚀 Check Ranking';
+        showError(err.message);
+      }
+    });
+  </script>
+</body>
+</html>
