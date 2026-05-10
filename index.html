@@ -1,366 +1,208 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Azure Horizon | Luxury Resort & Spa</title>
+    <title>VoiceMorph AI | Premium Browser Voice Changer & Translator</title>
+    <meta name="description" content="AI-powered YouTube voice changer and translator that works 100% in your browser.">
+    
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@lucide/icons"></script>
+    <script src="https://unpkg.com/wavesurfer.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+
     <style>
-        /* General Reset & Typography */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
         
-        /* --- NEW GLOBAL BACKGROUND ADDED HERE --- */
         body {
-            line-height: 1.6;
-            color: #333;
-            /* Added an attractive background image with a light overlay so text is readable */
-            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') fixed center/cover;
-        }
-        
-        /* Navigation Bar */
-        header {
-            background-color: #1a252c;
-            color: white;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        header h1 {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        nav a:hover {
-            color: #d4af37; /* Gold accent */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
         }
 
-        /* Hero Section */
-        .hero {
-            height: 80vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1542314831-c6a4d14d8c53?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 0 20px;
-        }
-        .hero h2 {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-        }
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 600px;
-            margin-bottom: 30px;
-        }
-        .btn {
-            padding: 15px 30px;
-            background-color: #d4af37;
-            color: #1a252c;
-            text-decoration: none;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 5px;
-            transition: background 0.3s;
-        }
-        .btn:hover {
-            background-color: #e5c158;
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Main Content Sections */
-        .section {
-            padding: 60px 5%;
-            max-width: 1200px;
-            margin: auto;
-            /* Added white backgrounds to sections to make them pop against the global background */
-            background-color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-        }
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 40px;
-            color: #1a252c;
+        .neon-border {
+            position: relative;
+            border: 1px solid transparent;
+            background-image: linear-gradient(#0f172a, #0f172a), radial-gradient(circle at top left, #22d3ee, #a855f7);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
         }
 
-        /* About & Content layout */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            align-items: center;
-        }
-        .about-text p {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            color: #555;
-            text-align: justify;
-        }
-        .about-image img {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .animated-gradient {
+            background: linear-gradient(-45deg, #22d3ee, #a855f7, #ec4899, #22d3ee);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
 
-        /* Rooms/Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        .card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-            border: 1px solid #eee;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-        }
-        .card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        .card-content {
-            padding: 20px;
-        }
-        .card-content h3 {
-            color: #1a252c;
-            margin-bottom: 10px;
-        }
-        .card-content p {
-            color: #666;
-            margin-bottom: 15px;
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* --- NEW EXPANDED FOOTER CSS --- */
-        footer {
-            background-color: #1a252c;
-            color: white;
-            padding: 60px 5% 20px;
-            margin-top: 40px;
+        .loader-ring {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: #22d3ee;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
         }
-        .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-            max-width: 1200px;
-            margin: 0 auto 40px auto;
-        }
-        .footer-col h3 {
-            color: #d4af37;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            text-transform: uppercase;
-        }
-        .footer-col p {
-            color: #ccc;
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-        }
-        .footer-col a {
-            color: #ccc;
-            text-decoration: none;
-            display: block;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-        }
-        .footer-col a:hover {
-            color: white;
-        }
-        .newsletter-input {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-        .newsletter-btn {
-            width: 100%;
-            padding: 10px;
-            background-color: #d4af37;
-            color: #1a252c;
-            border: none;
-            border-radius: 4px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .newsletter-btn:hover {
-            background-color: #e5c158;
-        }
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #2c3e50;
-            color: #888;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-            .hero h2 {
-                font-size: 2.5rem;
-            }
-            nav ul {
-                display: none;
-            }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen">
 
-    <header>
-        <h1>THE AZURE HORIZON</h1>
-        <nav>
-            <ul>
-                <li><a href="about.html">About</a></li>
-                <li><a href="rooms.html">Rooms</a></li>
-                <li><a href="amenities.html">Amenities</a></li>
-                <li><a href="#dining.html">Dining</a></li>
-                <li><a href="#gallery.html">Gallery</a></li>
-                <li><a href="#offers.html">Offers</a></li>
-                <li><a href="#reviews.html">Reviews</a></li>
-                <li><a href="#contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <section class="hero">
-        <h2>Escape to Paradise</h2>
-        <p>Experience the ultimate blend of luxury, comfort, and breathtaking natural beauty at the world's premier coastal resort.</p>
-        <a href="#rooms" class="btn">Book Your Stay</a>
-    </section>
+    <!-- Background Elements -->
+    <div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/20 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-500/20 rounded-full blur-[120px]"></div>
+    </div>
 
-    <div style="height: 40px;"></div>
-
-    <section id="about" class="section">
-        <h2 class="section-title">Welcome to The Azure Horizon</h2>
-        <div class="about-grid">
-            <div class="about-text">
-                <p>Welcome to The Azure Horizon Resort & Spa, your ultimate destination for luxury and tranquility. Located on the edge of the world's most pristine beaches, our resort is meticulously designed to provide an unforgettable escape from the ordinary. Whether you are planning a romantic honeymoon, a fun-filled family vacation, or a solo wellness retreat to recharge your spirit, The Azure Horizon offers a bespoke experience tailored just for you.</p>
-                <p>Our dedicated staff is committed to delivering world-class service, ensuring that every moment of your stay is nothing short of perfection. From the moment you arrive, you will be enveloped in an atmosphere of elegance, warmth, and unparalleled hospitality. We pride ourselves on creating a sanctuary where modern architecture seamlessly blends with lush natural surroundings.</p>
-                <p>Embark on a culinary journey at our signature restaurant, <strong>The Coastal Catch</strong>, where our Michelin-starred chefs use locally sourced ingredients to create exquisite dishes. Afterward, relax under the stars at our rooftop lounge. Discover why discerning travelers around the globe choose us as their home away from home.</p>
+    <!-- Navigation -->
+    <nav class="flex items-center justify-between px-6 py-4 glass sticky top-0 z-50">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-gradient-to-br from-cyan-400 to-purple-600 rounded-xl flex items-center justify-center">
+                <i data-lucide="zap" class="text-white fill-white"></i>
             </div>
-            <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Luxury Hotel Pool">
-            </div>
+            <span class="text-xl font-extrabold tracking-tighter">VOICEMORPH <span class="text-cyan-400">AI</span></span>
         </div>
-    </section>
-
-    <section id="rooms" class="section">
-        <h2 class="section-title">Luxurious Accommodations</h2>
-        <div class="cards-grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Ocean View Suite">
-                <div class="card-content">
-                    <h3>Ocean View Suite</h3>
-                    <p>Wake up to the gentle sound of waves and breathtaking panoramic views of the sea. Featuring a king-sized bed, a private balcony, and a lavish en-suite marble bathroom, this suite is the epitome of coastal luxury.</p>
-                    <a href="#" style="color: #d4af37; text-decoration: none; font-weight: bold;">Explore Room &rarr;</a>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Garden Oasis Villa">
-                <div class="card-content">
-                    <h3>Garden Oasis Villa</h3>
-                    <p>Tucked away in our lush tropical gardens, these private villas offer ultimate seclusion and serenity. Each comes with a private plunge pool, an outdoor rain shower, and spacious living areas perfect for unwinding.</p>
-                    <a href="#" style="color: #d4af37; text-decoration: none; font-weight: bold;">Explore Villa &rarr;</a>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1566073171526-873130761924?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="The Presidential Penthouse">
-                <div class="card-content">
-                    <h3>The Presidential Penthouse</h3>
-                    <p>Our most exclusive offering. Spanning the entire top floor, it features a private infinity pool, a personal butler, a dedicated dining area, and 360-degree views of the coastline and surrounding mountains.</p>
-                    <a href="#" style="color: #d4af37; text-decoration: none; font-weight: bold;">Explore Penthouse &rarr;</a>
-                </div>
-            </div>
+        <div class="flex gap-4">
+            <button class="p-2 hover:bg-white/10 rounded-full transition"><i data-lucide="github"></i></button>
+            <button class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm font-medium transition">Docs</button>
         </div>
-    </section>
+    </nav>
 
-    <section id="amenities" class="section">
-        <h2 class="section-title">World-Class Amenities</h2>
-        <div class="about-grid">
-            <div class="about-image">
-                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Spa and Wellness">
-            </div>
-            <div class="about-text">
-                <p><strong>The Serenity Spa:</strong> Rejuvenate your mind, body, and spirit with our holistic treatments, combining ancient healing techniques with modern wellness practices. Enjoy massages, facials, and a state-of-the-art sauna.</p>
-                <p><strong>Infinity Edge Pool:</strong> Lounge by our spectacular infinity pool that seamlessly blends into the horizon, complete with private cabanas and a swim-up bar offering signature tropical cocktails.</p>
-                <p><strong>Private Beach Access:</strong> Enjoy exclusive access to miles of white sandy beaches, perfect for quiet morning strolls, thrilling water sports, or simply watching the breathtaking sunset.</p>
-                <p><strong>Fitness Center:</strong> Keep up with your routine in our 24/7 gym, fully equipped with the latest cardio and strength-training machines, plus daily complimentary yoga classes.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer id="contact">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h3>The Azure Horizon</h3>
-                <p>Experience the pinnacle of luxury and relaxation. Your perfect getaway awaits at our world-renowned coastal resort. Escape the ordinary today.</p>
-            </div>
-            
-            <div class="footer-col">
-                <h3>Quick Links</h3>
-                <a href="#about">About Us</a>
-                <a href="#rooms">Rooms & Suites</a>
-                <a href="#amenities">Spa & Wellness</a>
-                <a href="#">Dining & Bar</a>
-                <a href="#">Careers</a>
-            </div>
-            
-            <div class="footer-col">
-                <h3>Contact Us</h3>
-                <p>📍 123 Paradise Coastline<br>&nbsp;&nbsp;&nbsp;&nbsp;Ocean View, OC 90210</p>
-                <p>📞 +1 (555) 123-4567</p>
-                <p>✉️ info@azurehorizon.com</p>
-            </div>
-            
-            <div class="footer-col">
-                <h3>Newsletter</h3>
-                <p>Subscribe for exclusive offers and updates straight to your inbox.</p>
-                <form action="#" method="get">
-                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
-                    <button type="submit" class="newsletter-btn">Subscribe Now</button>
-                </form>
-            </div>
-        </div>
+    <main class="max-w-5xl mx-auto px-4 py-12">
         
-        <div class="footer-bottom">
-            <p>&copy; 2026 The Azure Horizon Resort & Spa. All Rights Reserved. Designed for WPD Microproject.</p>
-        </div>
-    </footer>
+        <!-- Hero Section -->
+        <section id="hero" class="text-center mb-16">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/50">
+                Revolutionize Your <br>YouTube Content
+            </h1>
+            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10">
+                Professional voice transformation and translation. 100% Client-side. 
+                Your data never leaves your browser.
+            </p>
+            
+            <!-- Upload Zone -->
+            <div id="drop-zone" class="neon-border rounded-3xl p-12 transition-all cursor-pointer group">
+                <input type="file" id="file-input" class="hidden" accept="video/*,audio/*">
+                <div class="flex flex-col items-center">
+                    <div class="w-20 h-20 bg-white/5 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition duration-500">
+                        <i data-lucide="upload-cloud" class="w-10 h-10 text-cyan-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-2">Drop video or audio here</h3>
+                    <p class="text-slate-500 text-sm">MP4, MOV, MP3, WAV (Max 500MB)</p>
+                </div>
+            </div>
+        </section>
 
+        <!-- Processing Dashboard (Hidden by default) -->
+        <section id="dashboard" class="hidden space-y-8 animate-in fade-in duration-700">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Left: Controls -->
+                <div class="md:col-span-1 space-y-6">
+                    <div class="glass rounded-3xl p-6">
+                        <h4 class="text-sm font-bold uppercase tracking-widest text-cyan-400 mb-6 flex items-center gap-2">
+                            <i data-lucide="languages" class="w-4 h-4"></i> Translation
+                        </h4>
+                        <label class="text-xs text-slate-400 mb-2 block">Target Language</label>
+                        <select id="target-lang" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 mb-6 focus:ring-2 ring-cyan-500 outline-none">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="ja">Japanese</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="ko">Korean</option>
+                        </select>
+
+                        <h4 class="text-sm font-bold uppercase tracking-widest text-purple-400 mb-6 flex items-center gap-2">
+                            <i data-lucide="mic-2" class="w-4 h-4"></i> Voice Style
+                        </h4>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button class="voice-preset-btn p-3 bg-white/5 border border-white/10 rounded-xl text-xs hover:bg-cyan-500/20 transition" data-preset="male">Male Narrator</button>
+                            <button class="voice-preset-btn p-3 bg-white/5 border border-white/10 rounded-xl text-xs hover:bg-cyan-500/20 transition" data-preset="female">Female AI</button>
+                            <button class="voice-preset-btn p-3 bg-white/5 border border-white/10 rounded-xl text-xs hover:bg-cyan-500/20 transition" data-preset="robot">Cyber Robot</button>
+                            <button class="voice-preset-btn p-3 bg-white/5 border border-white/10 rounded-xl text-xs hover:bg-cyan-500/20 transition" data-preset="anime">Anime Style</button>
+                        </div>
+                    </div>
+
+                    <div class="glass rounded-3xl p-6">
+                        <h4 class="text-sm font-bold uppercase tracking-widest text-pink-400 mb-6">Fine Tuning</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-2"><span>Pitch</span><span id="pitch-val">1.0</span></div>
+                                <input type="range" id="pitch-slider" min="0.5" max="2" step="0.1" value="1" class="w-full accent-cyan-400">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-2"><span>Speed</span><span id="speed-val">1.0</span></div>
+                                <input type="range" id="speed-slider" min="0.5" max="2" step="0.1" value="1" class="w-full accent-purple-400">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Preview & Progress -->
+                <div class="md:col-span-2 space-y-6">
+                    <div class="glass rounded-3xl p-8 relative overflow-hidden">
+                        <div id="status-container" class="mb-6">
+                            <div class="flex justify-between items-end mb-2">
+                                <div>
+                                    <h3 id="status-text" class="text-xl font-bold">Ready to process</h3>
+                                    <p id="sub-status" class="text-slate-400 text-sm">Waiting for user input...</p>
+                                </div>
+                                <span id="progress-percent" class="text-3xl font-black text-cyan-400">0%</span>
+                            </div>
+                            <div class="w-full h-2 bg-white/5 rounded-full overflow-hidden">
+                                <div id="progress-bar" class="h-full animated-gradient w-0 transition-all duration-300"></div>
+                            </div>
+                        </div>
+
+                        <!-- Waveform -->
+                        <div id="waveform" class="w-full h-32 mb-6"></div>
+
+                        <div class="flex gap-4">
+                            <button id="process-btn" class="flex-1 py-4 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl font-bold text-lg shadow-lg shadow-cyan-500/20 hover:scale-[1.02] active:scale-95 transition">
+                                Start AI Morphing
+                            </button>
+                            <button id="download-btn" disabled class="px-6 py-4 bg-white/10 rounded-2xl opacity-50 cursor-not-allowed">
+                                <i data-lucide="download"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Live Transcription Preview -->
+                    <div class="glass rounded-3xl p-6">
+                        <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Live Transcription & Translation</h4>
+                        <div id="transcript-area" class="h-32 overflow-y-auto text-slate-300 text-sm leading-relaxed italic">
+                            Waiting for processing to start...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-10 left-1/2 -translate-x-1/2 glass px-6 py-3 rounded-full border-cyan-500/50 hidden z-[100] animate-bounce">
+        <span id="toast-msg" class="text-sm font-medium"></span>
+    </div>
+
+    <script src="app.js"></script>
+    <script>lucide.createIcons();</script>
 </body>
 </html>
